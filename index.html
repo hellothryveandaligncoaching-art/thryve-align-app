@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thryve & Align - Simple Life Purpose Journey</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        
+        .lotus-glow {
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            0% { filter: drop-shadow(0 0 5px rgba(76, 116, 110, 0.3)); }
+            100% { filter: drop-shadow(0 0 15px rgba(229, 140, 153, 0.4)); }
+        }
+        
+        .card-hover {
+            transition: transform 0.2s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-teal-600 to-rose-400 text-white py-12">
+        <div class="container mx-auto px-6 text-center">
+            <!-- Simple Lotus -->
+            <div class="mb-6">
+                <svg width="60" height="60" viewBox="0 0 100 100" class="mx-auto lotus-glow">
+                    <g transform="translate(50,50)">
+                        <ellipse cx="0" cy="-20" rx="6" ry="15" fill="#ffffff" transform="rotate(0)"/>
+                        <ellipse cx="0" cy="-20" rx="6" ry="15" fill="#ffffff" transform="rotate(60)"/>
+                        <ellipse cx="0" cy="-20" rx="6" ry="15" fill="#ffffff" transform="rotate(120)"/>
+                        <ellipse cx="0" cy="-20" rx="6" ry="15" fill="#ffffff" transform="rotate(180)"/>
+                        <ellipse cx="0" cy="-20" rx="6" ry="15" fill="#ffffff" transform="rotate(240)"/>
+                        <ellipse cx="0" cy="-20" rx="6" ry="15" fill="#ffffff" transform="rotate(300)"/>
+                        <circle cx="0" cy="0" r="4" fill="#ffd700"/>
+                    </g>
+                </svg>
+            </div>
+            <h1 class="text-4xl font-bold mb-2">Thryve & Align</h1>
+            <p class="text-xl opacity-90">Your Simple Path to Purpose</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-8 max-w-4xl">
+        
+        <!-- Daily Check-in -->
+        <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">How Are You Today? 💜</h2>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <label class="block font-medium mb-3">Your Mood:</label>
+                    <div class="space-y-2">
+                        <button onclick="setMood('amazing', '🌟')" class="mood-btn w-full p-3 text-left rounded-lg hover:bg-green-100 border">
+                            🌟 Amazing - I'm thriving!
+                        </button>
+                        <button onclick="setMood('good', '😊')" class="mood-btn w-full p-3 text-left rounded-lg hover:bg-blue-100 border">
+                            😊 Good - Feeling positive
+                        </button>
+                        <button onclick="setMood('okay', '😐')" class="mood-btn w-full p-3 text-left rounded-lg hover:bg-yellow-100 border">
+                            😐 Okay - Just getting by
+                        </button>
+                        <button onclick="setMood('struggling', '😔')" class="mood-btn w-full p-3 text-left rounded-lg hover:bg-red-100 border">
+                            😔 Struggling - Need support
+                        </button>
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block font-medium mb-3">One thing you're grateful for:</label>
+                    <textarea id="gratitude-input" class="w-full p-3 border rounded-lg h-24" placeholder="What made you smile today?"></textarea>
+                    
+                    <button onclick="saveCheckIn()" class="w-full mt-4 bg-teal-600 hover:bg-teal-700 text-white py-3 rounded-lg font-medium">
+                        Save My Check-in ✨
+                    </button>
+                </div>
+            </div>
+            
+            <div id="mood-display" class="mt-6 p-4 bg-gray-50 rounded-lg text-center hidden">
+                <p class="text-lg font-medium">Today's Mood: <span id="current-mood"></span></p>
+            </div>
+        </div>
+
+        <!-- Simple Tools -->
+        <div class="grid md:grid-cols-3 gap-6 mb-8">
+            <!-- Quick Journal -->
+            <div class="bg-white rounded-xl shadow-lg p-6 card-hover">
+                <div class="text-center mb-4">
+                    <div class="text-4xl mb-2">📝</div>
+                    <h3 class="text-xl font-bold">Quick Journal</h3>
+                </div>
+                <textarea id="journal-input" class="w-full p-3 border rounded-lg h-24 mb-4" placeholder="What's on your mind right now?"></textarea>
+                <button onclick="saveJournal()" class="w-full bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-lg">
+                    Save Thoughts
+                </button>
+            </div>
+
+            <!-- 2-Minute Calm -->
+            <div class="bg-white rounded-xl shadow-lg p-6 card-hover">
+                <div class="text-center mb-4">
+                    <div class="text-4xl mb-2">🧘‍♀️</div>
+                    <h3 class="text-xl font-bold">2-Minute Calm</h3>
+                </div>
+                <div id="breathing-display" class="text-center mb-4">
+                    <div id="breathing-instruction" class="text-lg font-medium text-gray-700 mb-2">
+                        Ready to breathe?
+                    </div>
+                    <div id="breathing-timer" class="text-2xl font-bold text-teal-600 hidden">2:00</div>
+                </div>
+                <button id="breathing-btn" onclick="startBreathing()" class="w-full bg-teal-600 hover:bg-teal-700 text-white py-2 rounded-lg">
+                    Start Breathing
+                </button>
+            </div>
+
+            <!-- Daily Wisdom -->
+            <div class="bg-white rounded-xl shadow-lg p-6 card-hover">
+                <div class="text-center mb-4">
+                    <div class="text-4xl mb-2">💫</div>
+                    <h3 class="text-xl font-bold">Daily Wisdom</h3>
+                </div>
+                <div id="wisdom-display" class="text-center mb-4 p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg min-h-[80px] flex items-center justify-center">
+                    <p class="text-gray-600">Click for inspiration</p>
+                </div>
+                <button onclick="getWisdom()" class="w-full bg-rose-500 hover:bg-rose-600 text-white py-2 rounded-lg">
+                    Get Wisdom
+                </button>
+            </div>
+        </div>
+
+        <!-- Simple Goal Setting -->
+        <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">What's One Thing You Want to Focus On? 🎯</h2>
+            
+            <div class="max-w-2xl mx-auto">
+                <div class="mb-4">
+                    <input type="text" id="goal-input" class="w-full p-4 border rounded-lg text-lg" placeholder="I want to focus on...">
+                </div>
+                <div class="mb-6">
+                    <textarea id="goal-why" class="w-full p-3 border rounded-lg" placeholder="Why is this important to you?"></textarea>
+                </div>
+                <button onclick="setGoal()" class="w-full bg-gradient-to-r from-teal-600 to-rose-500 hover:opacity-90 text-white py-3 rounded-lg font-medium text-lg">
+                    Set My Focus 🌟
+                </button>
+                
+                <div id="current-goal" class="mt-6 p-4 bg-gradient-to-r from-teal-50 to-rose-50 rounded-lg hidden">
+                    <h3 class="font-bold text-teal-700 mb-2">Your Current Focus:</h3>
+                    <p id="goal-text" class="text-gray-800"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress & Encouragement -->
+        <div class="bg-white rounded-xl shadow-lg p-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Your Journey So Far 🌱</h2>
+            
+            <div class="grid md:grid-cols-4 gap-6 text-center">
+                <div class="p-4">
+                    <div class="text-3xl font-bold text-teal-600" id="check-ins">0</div>
+                    <div class="text-sm text-gray-600">Check-ins</div>
+                </div>
+                <div class="p-4">
+                    <div class="text-3xl font-bold text-purple-600" id="journal-entries">0</div>
+                    <div class="text-sm text-gray-600">Journal Entries</div>
+                </div>
+                <div class="p-4">
+                    <div class="text-3xl font-bold text-rose-600" id="calm-sessions">0</div>
+                    <div class="text-sm text-gray-600">Calm Sessions</div>
+                </div>
+                <div class="p-4">
+                    <div class="text-3xl font-bold text-orange-600" id="wisdom-views">0</div>
+                    <div class="text-sm text-gray-600">Wisdom Moments</div>
+                </div>
+            </div>
+            
+            <div class="mt-8 text-center">
+                <p class="text-lg text-gray-700 mb-4">🌟 Every small step counts on your journey to purpose!</p>
+                <div class="bg-gradient-to-r from-teal-100 to-rose-100 p-4 rounded-lg">
+                    <p class="font-medium text-gray-800">"The journey of a thousand miles begins with one step." - Lao Tzu</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-6 mt-12">
+        <div class="container mx-auto px-6 text-center">
+            <p class="text-sm opacity-75">Powered by <span class="font-semibold text-teal-400">Thryve & Align Coaching Solutions</span></p>
+        </div>
+    </footer>
+
+    <script>
+        // Simple data storage
+        let stats = {
+            checkIns: 0,
+            journalEntries: 0,
+            calmSessions: 0,
+            wisdomViews: 0
+        };
+        
+        let currentMood = '';
+        let breathingInterval = null;
+        let breathingActive = false;
+        
+        // Wisdom quotes
+        const wisdomQuotes = [
+            "You are exactly where you need to be right now.",
+            "Your purpose is already within you, waiting to be discovered.",
+            "Every challenge is helping you grow into who you're meant to be.",
+            "Trust the process. Trust yourself.",
+            "You have everything you need to create the life you want.",
+            "Your journey is unique and beautiful.",
+            "Small steps lead to big transformations.",
+            "You are worthy of love, success, and happiness.",
+            "Listen to your heart - it knows the way.",
+            "You are stronger than you think and more capable than you know."
+        ];
+
+        // Load data on start
+        document.addEventListener('DOMContentLoaded', function() {
+            loadStats();
+            updateDisplay();
+        });
+
+        // Mood tracking
+        function setMood(mood, emoji) {
+            currentMood = mood;
+            
+            // Update button styles
+            document.querySelectorAll('.mood-btn').forEach(btn => {
+                btn.classList.remove('bg-teal-100', 'border-teal-500');
+            });
+            
+            event.target.classList.add('bg-teal-100', 'border-teal-500');
+            
+            // Show current mood
+            document.getElementById('current-mood').textContent = `${emoji} ${mood}`;
+            document.getElementById('mood-display').classList.remove('hidden');
+        }
+
+        // Save check-in
+        function saveCheckIn() {
+            const gratitude = document.getElementById('gratitude-input').value.trim();
+            
+            if (!currentMood) {
+                alert('Please select your mood first! 😊');
+                return;
+            }
+            
+            if (!gratitude) {
+                alert('Please share something you\'re grateful for! 💜');
+                return;
+            }
+            
+            stats.checkIns++;
+            saveStats();
+            updateDisplay();
+            
+            alert(`✨ Check-in saved! Thank you for taking care of yourself today. Your mood: ${currentMood}, and you're grateful for: "${gratitude}" 💜`);
+            
+            // Reset
+            document.getElementById('gratitude-input').value = '';
+            currentMood = '';
+            document.querySelectorAll('.mood-btn').forEach(btn => {
+                btn.classList.remove('bg-teal-100', 'border-teal-500');
+            });
+            document.getElementById('mood-display').classList.add('hidden');
+        }
+
+        // Journal
+        function saveJournal() {
+            const entry = document.getElementById('journal-input').value.trim();
+            
+            if (!entry) {
+                alert('Please write something first! 📝');
+                return;
+            }
+            
+            stats.journalEntries++;
+            saveStats();
+            updateDisplay();
+            
+            alert('📝 Journal entry saved! Keep writing your story! ✨');
+            document.getElementById('journal-input').value = '';
+        }
+
+        // Breathing exercise
+        function startBreathing() {
+            if (breathingActive) {
+                stopBreathing();
+                return;
+            }
+            
+            breathingActive = true;
+            document.getElementById('breathing-btn').textContent = 'Stop';
+            document.getElementById('breathing-btn').classList.remove('bg-teal-600', 'hover:bg-teal-700');
+            document.getElementById('breathing-btn').classList.add('bg-red-500', 'hover:bg-red-600');
+            
+            let timeLeft = 120; // 2 minutes
+            document.getElementById('breathing-timer').classList.remove('hidden');
+            document.getElementById('breathing-instruction').textContent = 'Breathe slowly and deeply...';
+            
+            breathingInterval = setInterval(() => {
+                timeLeft--;
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                document.getElementById('breathing-timer').textContent = 
+                    `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (timeLeft <= 0) {
+                    stopBreathing();
+                    alert('🧘‍♀️ Great job! You completed 2 minutes of calm breathing! ✨');
+                }
+            }, 1000);
+        }
+
+        function stopBreathing() {
+            breathingActive = false;
+            clearInterval(breathingInterval);
+            
+            document.getElementById('breathing-btn').textContent = 'Start Breathing';
+            document.getElementById('breathing-btn').classList.remove('bg-red-500', 'hover:bg-red-600');
+            document.getElementById('breathing-btn').classList.add('bg-teal-600', 'hover:bg-teal-700');
+            
+            document.getElementById('breathing-timer').classList.add('hidden');
+            document.getElementById('breathing-instruction').textContent = 'Ready to breathe?';
+            
+            if (stats.calmSessions !== undefined) {
+                stats.calmSessions++;
+                saveStats();
+                updateDisplay();
+            }
+        }
+
+        // Wisdom
+        function getWisdom() {
+            const randomQuote = wisdomQuotes[Math.floor(Math.random() * wisdomQuotes.length)];
+            document.getElementById('wisdom-display').innerHTML = 
+                `<p class="font-medium text-purple-800">"${randomQuote}"</p>`;
+            
+            stats.wisdomViews++;
+            saveStats();
+            updateDisplay();
+        }
+
+        // Goal setting
+        function setGoal() {
+            const goal = document.getElementById('goal-input').value.trim();
+            const why = document.getElementById('goal-why').value.trim();
+            
+            if (!goal) {
+                alert('Please enter what you want to focus on! 🎯');
+                return;
+            }
+            
+            document.getElementById('goal-text').textContent = goal;
+            document.getElementById('current-goal').classList.remove('hidden');
+            
+            alert(`🌟 Perfect! Your focus is set: "${goal}". Remember why this matters to you and take one small step today! 💪`);
+            
+            // Clear inputs
+            document.getElementById('goal-input').value = '';
+            document.getElementById('goal-why').value = '';
+        }
+
+        // Data management
+        function saveStats() {
+            try {
+                localStorage.setItem('thryve-simple-stats', JSON.stringify(stats));
+            } catch (e) {
+                console.log('Storage not available');
+            }
+        }
+
+        function loadStats() {
+            try {
+                const saved = localStorage.getItem('thryve-simple-stats');
+                if (saved) {
+                    stats = JSON.parse(saved);
+                }
+            } catch (e) {
+                console.log('Error loading stats');
+            }
+        }
+
+        function updateDisplay() {
+            document.getElementById('check-ins').textContent = stats.checkIns || 0;
+            document.getElementById('journal-entries').textContent = stats.journalEntries || 0;
+            document.getElementById('calm-sessions').textContent = stats.calmSessions || 0;
+            document.getElementById('wisdom-views').textContent = stats.wisdomViews || 0;
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97ca6686826c89da',t:'MTc1NzQ1OTg2MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
